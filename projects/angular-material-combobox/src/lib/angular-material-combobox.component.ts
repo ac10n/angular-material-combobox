@@ -1,19 +1,177 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Observable, of} from 'rxjs';
+import {FormControl} from '@angular/forms';
+import {MatAutocompleteTrigger, MatOptionSelectionChange} from '@angular/material';
+import {map, mergeMap, share, startWith} from 'rxjs/operators';
 
 @Component({
-  selector: 'lib-angular-material-combobox',
-  template: `
-    <p>
-      angular-material-combobox works!
-    </p>
-  `,
-  styles: []
+  selector: 'mat-combobox',
+  templateUrl: `./angular-material-combobox.component.html`,
+  styleUrls: ['./angular-material-combobox.component.scss']
 })
 export class AngularMaterialComboboxComponent implements OnInit {
 
-  constructor() { }
+  private _selectedItem: any;
 
-  ngOnInit() {
+  @Output()
+  selectedKeyChange = new EventEmitter<any>();
+
+  @Output()
+  selectedItemChange = new EventEmitter<any>();
+
+  @Output()
+  textChange = new EventEmitter<string>();
+
+  @Input()
+  title: string;
+
+  @Input()
+  get selectedKey() {
+    return this.getKey(this._selectedItem);
   }
 
+  set selectedKey(value: any) {
+    if (value === this.getKey(this.selectedItem)) {
+      return;
+    }
+    if (this.items) {
+      this.selectedItem = this.items.find(x => this.getKey(x) == value);
+    }
+    if (this.getItemByKey) {
+      this.getItemByKey(value)
+        .subscribe(x => this.selectedItem = x);
+    }
+  }
+
+  @Input()
+  get selectedItem(): any {
+    return this._selectedItem;
+  }
+
+  set selectedItem(item: any) {
+    if (this.selectedItem === item) {
+      return;
+    }
+    this.setSelectedItem(item, true);
+  }
+
+  setSelectedItem(item: any, changeText: boolean) {
+    this._selectedItem = item;
+    this.selectedItemChange.emit(item);
+    this.selectedKeyChange.emit(this.getKey(item));
+    if (changeText) {
+      this.inputCtrl.setValue(item);
+      this.textChange.emit(this.getDisplayText(item));
+    }
+  }
+
+  @Input()
+  keyProperty: string | ((any) => any);
+
+  @Input()
+  displayProperty: string | ((any) => string);
+
+  @Input()
+  items: any[];
+
+  @Input()
+  getAutocompleteItems: (string) => Observable<any[]>;
+
+  @Input()
+  getItemByKey: (any) => Observable<any>;
+
+  private getKey(item: any): any {
+    if (!item) {
+      return null;
+    }
+    if (typeof this.keyProperty === 'string') {
+      return item[this.keyProperty];
+    }
+    return (this.keyProperty as ((any) => any))(item);
+  }
+
+  private getDisplayText(item: any): string {
+    if (!item) {
+      return null;
+    }
+    if (typeof this.displayProperty === 'string') {
+      return item[this.displayProperty];
+    }
+    return (this.displayProperty as ((any) => string))(item);
+  }
+
+  private getItems(text: string): Observable<any[]> {
+    if (this.items) {
+      const regExp = new RegExp(text, 'i');
+      const filtered = this.items.filter(x => {
+        const display = this.getDisplayText(x);
+        if (!display) {
+          return !text;
+        }
+        return display.search(regExp) >= 0;
+      });
+      return of(filtered);
+    }
+    return this.getAutocompleteItems(text);
+  }
+
+  @Input() color: string;
+  @Input() overridePropertyName: string;
+
+  inputCtrl = new FormControl();
+  filteredOptions: Observable<any[]>;
+  listRefresher = true;
+  loading = false;
+  isAutoCompleteOpen: boolean;
+
+  @ViewChild(MatAutocompleteTrigger)
+  trigger: MatAutocompleteTrigger;
+
+  ngOnInit() {
+    this.filteredOptions = this.inputCtrl.valueChanges
+      .pipe(
+        startWith({name: null})
+        , map(x => {
+          this.textChange.emit(x);
+          if (typeof x === 'string' && this.selectedItem && this.getDisplayText(this.selectedItem) != x) {
+            this.setSelectedItem(null, false);
+          }
+          return x && typeof x === 'string' ? x : this.getDisplayText(x);
+        })
+        , mergeMap(name => this.filter(name))
+        , share());
+  }
+
+  filter(name: string): Observable<any[]> {
+    if (name) {
+      this.trigger.autocompleteDisabled = false;
+    }
+    return this.getItems(name);
+  }
+
+  displayFn(): string {
+    return this.getDisplayText(this._selectedItem);
+  }
+
+  clean() {
+    this.selectedItem = null;
+    this.inputCtrl.setValue('');
+    this.trigger.autocompleteDisabled = true;
+  }
+
+  toggleDropDown() {
+    if (this.trigger.autocomplete.isOpen) {
+      this.trigger.closePanel();
+      this.trigger.autocompleteDisabled = true;
+    } else {
+      this.trigger.autocompleteDisabled = false;
+      this.trigger.openPanel();
+    }
+  }
+
+  onOptionSelectionChanged(event: MatOptionSelectionChange, item: any) {
+    if (event && event.source && event.source.selected) {
+      this.selectedItem = item;
+    }
+  }
 }

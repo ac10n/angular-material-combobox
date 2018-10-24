@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'demo-root',
@@ -6,5 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  localData = [
+    {id: 1, title: 'Apple'},
+    {id: 2, title: 'Orange'}
+  ];
+  selectedItem: any;
+  selectedKey: any;
+  text: string;
   title = 'demo-app';
 }
