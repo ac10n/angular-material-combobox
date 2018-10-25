@@ -102,6 +102,9 @@ export class AngularMaterialComboboxComponent implements OnInit {
 
   private getItems(text: string): Observable<any[]> {
     if (this.items) {
+      if (!text) {
+        text = '';
+      }
       const regExp = new RegExp(text, 'i');
       const filtered = this.items.filter(x => {
         const display = this.getDisplayText(x);
@@ -132,7 +135,9 @@ export class AngularMaterialComboboxComponent implements OnInit {
       .pipe(
         startWith({name: null})
         , map(x => {
-          this.textChange.emit(x);
+          if (typeof x === 'string') {
+            this.textChange.emit(x);
+          }
           if (typeof x === 'string' && this.selectedItem && this.getDisplayText(this.selectedItem) != x) {
             this.setSelectedItem(null, false);
           }
