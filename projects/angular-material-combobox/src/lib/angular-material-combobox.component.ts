@@ -38,8 +38,12 @@ export class AngularMaterialComboboxComponent implements OnInit {
       this.selectedItem = this.items.find(x => this.getKey(x) == value);
     }
     if (this.getItemByKey) {
+      this.loading = true;
       this.getItemByKey(value)
-        .subscribe(x => this.selectedItem = x);
+        .subscribe(x => {
+          this.loading = false;
+          this.selectedItem = x;
+        });
     }
   }
 
@@ -115,7 +119,12 @@ export class AngularMaterialComboboxComponent implements OnInit {
       });
       return of(filtered);
     }
-    return this.getAutocompleteItems(text);
+    this.loading = true;
+    return this.getAutocompleteItems(text)
+      .pipe(map(x => {
+        this.loading = false;
+        return x;
+      }));
   }
 
   @Input() color: string;

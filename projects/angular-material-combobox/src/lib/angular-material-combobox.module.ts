@@ -5,7 +5,7 @@ import {
   MatButtonModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule,
+  MatInputModule, MatProgressSpinnerModule,
   MatTooltipModule
 } from '@angular/material';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -21,7 +21,8 @@ import {CommonModule} from '@angular/common';
     MatTooltipModule,
     MatIconModule,
     MatButtonModule,
-    MatInputModule
+    MatInputModule,
+    MatProgressSpinnerModule
   ],
   declarations: [AngularMaterialComboboxComponent],
   exports: [AngularMaterialComboboxComponent]

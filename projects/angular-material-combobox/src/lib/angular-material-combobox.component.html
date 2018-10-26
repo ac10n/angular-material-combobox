@@ -3,7 +3,7 @@
   <input matInput [placeholder]="title"
          [formControl]="inputCtrl" [matAutocomplete]="auto" [matAutocompleteDisabled]="true">
   <div matSuffix class="dropdown-actions-container">
-    <mat-icon *ngIf="loading" class="fa fa-spinner" matSuffix>refresh</mat-icon>
+    <mat-spinner class="loading" [diameter]="24" *ngIf="loading" class="fa fa-spinner" matSuffix>refresh</mat-spinner>
     <button mat-icon-button (click)="toggleDropDown()" matTooltip="{{isAutoCompleteOpen ? 'Hide' : 'Show'}} DropDown"
             tabindex="-1">
       <mat-icon>arrow_drop_down</mat-icon>
