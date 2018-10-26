@@ -1,4 +1,4 @@
-<mat-form-field class="full-width" *ngIf="listRefresher && !isFilter" appearance="outline">
+<mat-form-field class="full-width" [appearance]="appearance">
   <mat-label>{{title}}</mat-label>
   <input matInput [placeholder]="title"
          [formControl]="inputCtrl" [matAutocomplete]="auto" [matAutocompleteDisabled]="true">
@@ -11,6 +11,15 @@
     <button mat-icon-button (click)="clean()" matTooltip="Clear the value" tabindex="-1">
       <mat-icon>remove</mat-icon>
     </button>
+    <ng-container *ngFor="let command of commands">
+      <button *ngIf="command.iconName" mat-icon-button="" matTooltip="{{command.tooltip}}"
+              (click)="runCommand(command)">
+        <mat-icon>{{command.iconName}}</mat-icon>
+      </button>
+      <button *ngIf="!command.iconName" mat-button matTooltip="{{command.tooltip}}" (click)="runCommand(command)">
+        {{command.title || command.name}}
+      </button>
+    </ng-container>
   </div>
   <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this)">
     <mat-option *ngFor="let item of filteredOptions | async" [value]="item.id"

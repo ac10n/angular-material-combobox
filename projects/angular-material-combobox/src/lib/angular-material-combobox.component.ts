@@ -1,8 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {FormControl} from '@angular/forms';
-import {MatAutocompleteTrigger, MatOptionSelectionChange} from '@angular/material';
+import {MatAutocompleteTrigger, MatFormFieldAppearance, MatOptionSelectionChange} from '@angular/material';
 import {map, mergeMap, share, startWith} from 'rxjs/operators';
+import {ComboboxCommandInfo} from './combobox-command-info';
 
 @Component({
   selector: 'mat-combobox',
@@ -12,12 +13,29 @@ import {map, mergeMap, share, startWith} from 'rxjs/operators';
 export class AngularMaterialComboboxComponent implements OnInit {
 
   private _selectedItem: any;
+  private _text: string;
+
+  @Input()
+  appearance: MatFormFieldAppearance;
+
+  @Input()
+  commands: ComboboxCommandInfo[];
 
   @Output()
   selectedKeyChange = new EventEmitter<any>();
 
   @Output()
   selectedItemChange = new EventEmitter<any>();
+
+  @Input()
+  get text() {
+    return this._text;
+  }
+
+  set text(value: string) {
+    this._text = value;
+    this.textChange.emit(value);
+  }
 
   @Output()
   textChange = new EventEmitter<string>();
@@ -47,6 +65,24 @@ export class AngularMaterialComboboxComponent implements OnInit {
     }
   }
 
+  runCommand(command: ComboboxCommandInfo) {
+    command.callback({selectedItem: this.selectedItem, text: this.text})
+      .subscribe(x => {
+        if (x.canceled) {
+          return;
+        }
+        if (x.keyToBeSelected) {
+          this.selectedKey = x.keyToBeSelected;
+          this.trigger.closePanel();
+          this.trigger.autocompleteDisabled = true;
+        } else if (x.itemToBeSelected) {
+          this.selectedItem = x.itemToBeSelected;
+          this.trigger.closePanel();
+          this.trigger.autocompleteDisabled = true;
+        }
+      });
+  }
+
   @Input()
   get selectedItem(): any {
     return this._selectedItem;
@@ -65,7 +101,7 @@ export class AngularMaterialComboboxComponent implements OnInit {
     this.selectedKeyChange.emit(this.getKey(item));
     if (changeText) {
       this.inputCtrl.setValue(item);
-      this.textChange.emit(this.getDisplayText(item));
+      this.text = this.getDisplayText(item);
     }
   }
 
@@ -132,7 +168,6 @@ export class AngularMaterialComboboxComponent implements OnInit {
 
   inputCtrl = new FormControl();
   filteredOptions: Observable<any[]>;
-  listRefresher = true;
   loading = false;
   isAutoCompleteOpen: boolean;
 
@@ -145,7 +180,7 @@ export class AngularMaterialComboboxComponent implements OnInit {
         startWith({name: null})
         , map(x => {
           if (typeof x === 'string') {
-            this.textChange.emit(x);
+            this.text = x;
           }
           if (typeof x === 'string' && this.selectedItem && this.getDisplayText(this.selectedItem) != x) {
             this.setSelectedItem(null, false);

@@ -1,6 +1,7 @@
 <div>
   <h3>From Local Items</h3>
   <mat-combobox
+    [commands]="combo1.commands"
     [items]="combo1.localData"
     keyProperty="id"
     displayProperty="title"
@@ -17,6 +18,7 @@
 <div>
   <h3>Observable Sources</h3>
   <mat-combobox
+    appearance="outline"
     [getAutocompleteItems]="combo2.getAutoCompleteItems"
     [getItemByKey]="combo2.getById"
     keyProperty="id"

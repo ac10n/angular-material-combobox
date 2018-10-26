@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {delay} from 'rxjs/operators';
 import {of} from 'rxjs';
+import {ComboboxCommandInfo} from '../../projects/angular-material-combobox/src/lib/combobox-command-info';
 
 @Component({
   selector: 'demo-root',
@@ -24,7 +25,19 @@ export class AppComponent {
     localData: this.fruits,
     selectedItem: null,
     selectedKey: null,
-    text: ''
+    text: '',
+    commands: [<ComboboxCommandInfo>{
+      name: 'setToMelon',
+      title: 'Set to Melon',
+      callback: (x) => of({keyToBeSelected: 3}),
+      iconName: 'save',
+      tooltip: 'Set to Melon'
+    }, <ComboboxCommandInfo>{
+      name: 'setToPeach',
+      title: 'Set to Peach',
+      callback: (x) => of({itemToBeSelected: this.fruits[3]}),
+      tooltip: 'Set to Peach'
+    }]
   };
 
   combo2 = {
