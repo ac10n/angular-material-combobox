@@ -1,35 +1,36 @@
 <div>
-  <h3>From Local Items</h3>
-  <mat-combobox
-    [commands]="combo1.commands"
-    [items]="combo1.localData"
-    keyProperty="id"
-    displayProperty="title"
-    [(selectedItem)]="combo1.selectedItem"
-    [(selectedKey)]="combo1.selectedKey"
-    (textChange)="combo1.text=$event">
-
-  </mat-combobox>
-  <br> Selected Item: {{combo1.selectedItem | json}}
-  <br> Selected Key: <input type="text" [(ngModel)]="combo1.selectedKey">
-  <br> Text: {{combo1.text}}
-</div>
-
-<div>
-  <h3>Observable Sources</h3>
-  <mat-combobox
-    appearance="outline"
-    [getAutocompleteItems]="combo2.getAutoCompleteItems"
-    [getItemByKey]="combo2.getById"
-    keyProperty="id"
-    displayProperty="title"
-    [(selectedItem)]="combo2.selectedItem"
-    [(selectedKey)]="combo2.selectedKey"
-    (textChange)="combo2.text=$event">
-
-  </mat-combobox>
-  <br> Selected Item: {{combo2.selectedItem | json}}
-  <br> Selected Key: <input type="text" [(ngModel)]="combo2.selectedKey">
-  <br> Text: {{combo2.text}}
-</div>
-
+    <h3>From Local Items</h3>
+    <mat-combobox
+      [commands]="combo1.commands"
+      [items]="combo1.localData"
+      keyProperty="id"
+      displayProperty="title"
+      [(selectedItem)]="combo1.selectedItem"
+      [(selectedKey)]="combo1.selectedKey"
+      (textChange)="combo1.text=$event">
+  
+    </mat-combobox>
+    <br> Selected Item: {{combo1.selectedItem | json}}
+    <br> Selected Key: <input type="text" [(ngModel)]="combo1.selectedKey">
+    <br> Text: {{combo1.text}}
+  </div>
+  
+  <div>
+    <h3>Observable Sources</h3>
+    <mat-combobox
+      appearance="outline"
+      [getAutocompleteItems]="combo2.getAutoCompleteItems"
+      [getItemByKey]="combo2.getById"
+      keyProperty="id"
+      displayProperty="title"
+      [(selectedItem)]="combo2.selectedItem"
+      [(selectedKey)]="combo2.selectedKey"
+      (textChange)="combo2.text=$event">
+  
+    </mat-combobox>
+    <br> Selected Item: {{combo2.selectedItem | json}}
+    <br> Selected Key: <input type="text" [(ngModel)]="combo2.selectedKey">
+    <br> Text: {{combo2.text}}
+  </div>
+  
+  
