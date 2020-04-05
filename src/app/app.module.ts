@@ -3,6 +3,10 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { AngularMaterialComboboxModule } from 'projects/angular-material-combobox/src/lib/angular-material-combobox.module';
 
 @NgModule({
   declarations: [
@@ -10,7 +14,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    AngularMaterialComboboxModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]
