@@ -132,7 +132,7 @@ export class AngularMaterialComboboxComponent implements OnInit {
     return (this.keyProperty as ((any) => any))(item);
   }
 
-  private getDisplayText(item: any): string {
+  public getDisplayText(item: any): string {
     if (!item) {
       return null;
     }
