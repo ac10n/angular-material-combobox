@@ -3,10 +3,14 @@ import { TestBed } from '@angular/core/testing';
 import { AngularMaterialComboboxService } from './angular-material-combobox.service';
 
 describe('AngularMaterialComboboxService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  let service: AngularMaterialComboboxService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(AngularMaterialComboboxService);
+  });
 
   it('should be created', () => {
-    const service: AngularMaterialComboboxService = TestBed.get(AngularMaterialComboboxService);
     expect(service).toBeTruthy();
   });
 });

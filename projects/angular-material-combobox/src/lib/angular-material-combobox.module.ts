@@ -1,31 +1,12 @@
-import {NgModule} from '@angular/core';
-import {AngularMaterialComboboxComponent} from './angular-material-combobox.component';
-import {
-  MatAutocompleteModule,
-  MatButtonModule,
-  MatFormFieldModule,
-  MatIconModule,
-  MatInputModule, MatProgressSpinnerModule,
-  MatTooltipModule
-} from '@angular/material';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {CommonModule} from '@angular/common';
+import { NgModule } from '@angular/core';
+import { AngularMaterialComboboxComponent } from './angular-material-combobox.component';
+
+
 
 @NgModule({
-  imports: [
-    CommonModule,
-    MatFormFieldModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatAutocompleteModule,
-    MatTooltipModule,
-    MatIconModule,
-    MatButtonModule,
-    MatInputModule,
-    MatProgressSpinnerModule
-  ],
   declarations: [AngularMaterialComboboxComponent],
+  imports: [
+  ],
   exports: [AngularMaterialComboboxComponent]
 })
-export class AngularMaterialComboboxModule {
-}
+export class AngularMaterialComboboxModule { }
