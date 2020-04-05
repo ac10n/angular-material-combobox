@@ -1,16 +1,16 @@
 {
-    "extends": "../../tslint.json",
+    "extends": "../tslint.json",
     "rules": {
         "directive-selector": [
             true,
             "attribute",
-            "mat",
+            "demo",
             "camelCase"
         ],
         "component-selector": [
             true,
             "element",
-            "mat",
+            "demo",
             "kebab-case"
         ]
     }
