@@ -1,9 +1,11 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {FormControl} from '@angular/forms';
-import {MatAutocompleteTrigger, MatFormFieldAppearance, MatOptionSelectionChange} from '@angular/material';
+import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
+import {MatFormFieldAppearance} from '@angular/material/form-field'
 import {map, mergeMap, share, startWith} from 'rxjs/operators';
 import {ComboboxCommandInfo} from './combobox-command-info';
+import { MatOptionSelectionChange } from '@angular/material/core';
 
 @Component({
   selector: 'mat-combobox',
