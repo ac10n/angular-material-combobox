@@ -14,7 +14,13 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "angular-material-combobox": [
+        "dist/angular-material-combobox/angular-material-combobox",
+        "dist/angular-material-combobox"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
