@@ -1,6 +1,6 @@
 {
   "name": "angular-material-combobox",
-  "version": "0.10.12",
+  "version": "0.10.13",
   "peerDependencies": {
     "@angular/common": "^10.0.0",
     "@angular/core": "^10.0.0",
