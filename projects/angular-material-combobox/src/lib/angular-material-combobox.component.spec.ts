@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AngularMaterialComboboxComponent } from './angular-material-combobox.component';
 
@@ -6,7 +6,7 @@ describe('AngularMaterialComboboxComponent', () => {
   let component: AngularMaterialComboboxComponent;
   let fixture: ComponentFixture<AngularMaterialComboboxComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ AngularMaterialComboboxComponent ]
     })
